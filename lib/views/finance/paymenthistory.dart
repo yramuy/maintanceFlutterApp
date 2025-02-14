@@ -20,13 +20,22 @@ class _PaymentHistoryState extends State<PaymentHistory> {
         init: PaymentHistoryController(),
         builder: (controller) => Scaffold(
               appBar: AppBar(
-                backgroundColor: const Color(0xff005F01),
+                backgroundColor: const Color(0xff004cf1),
                 centerTitle: true,
                 iconTheme: const IconThemeData(color: Colors.white),
                 title: const Text(
                   "Payment History",
                   style: TextStyle(
                       color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+                leading: GestureDetector(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: const Icon(
+                    Icons.arrow_back_ios,
+                    size: 30,
+                  ),
                 ),
               ),
               body: Container(

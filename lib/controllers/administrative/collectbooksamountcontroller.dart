@@ -6,6 +6,7 @@ class CollectBooksAmountController extends GetxController {
   List booksOrder = [];
   Map<int, bool> isToggled = {};
   String? saintID = '0';
+  bool isPresent = false; // Default state
 
   @override
   void onInit() {
@@ -50,6 +51,15 @@ class CollectBooksAmountController extends GetxController {
         "mrbPrice": 110,
         "mb": 2,
         "mbPrice": 0
+      },
+      {
+        "id": 5,
+        "name": "Daniel",
+        "mrbTel": 8,
+        "mrbEng": 3,
+        "mrbPrice": 110,
+        "mb": 5,
+        "mbPrice": 280
       }
     ];
     for (int i = 0; i < booksOrder.length; i++) {

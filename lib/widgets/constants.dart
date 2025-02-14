@@ -10,6 +10,7 @@ class Constants {
   static String logoImage = 'assets/images/logo.jpg';
 
   static const TextStyle myTextStyle = TextStyle(color: Colors.white, fontSize: 14);
+  static const TextStyle myTextStyle3 = TextStyle(color: Color(0xFF2c2cff), fontSize: 14);
   static const TextStyle myTextStyle2 = TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold);
   static const TextStyle textStyle = TextStyle(color: Colors.white, fontWeight: FontWeight.bold);
 }

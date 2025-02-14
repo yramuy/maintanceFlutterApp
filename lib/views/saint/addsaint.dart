@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:maintenanceapp/controllers/saints/addsaintcontroller.dart';
+import 'package:maintenanceapp/views/saint/saints.dart';
 import 'package:maintenanceapp/widgets/constants.dart';
 
 class AddSaint extends StatefulWidget {
@@ -19,11 +23,23 @@ class _AddSaintState extends State<AddSaint> {
         builder: (controller) => Scaffold(
               appBar: AppBar(
                 centerTitle: true,
-                title: const Text("Add Saint",
-                    style: TextStyle(
+                title: Text(
+                    controller.saintID.toString() != '0'
+                        ? "Edit Saint"
+                        : "Add Saint",
+                    style: const TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold)),
-                backgroundColor: const Color(0xff005F01),
+                backgroundColor: const Color(0xFF2c2cff),
                 iconTheme: const IconThemeData(color: Colors.white),
+                leading: GestureDetector(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: const Icon(
+                    Icons.arrow_back_ios,
+                    size: 30,
+                  ),
+                ),
               ),
               body: Container(
                 height: MediaQuery.of(context).size.height * 1,
@@ -38,233 +54,481 @@ class _AddSaintState extends State<AddSaint> {
                   child: SingleChildScrollView(
                     child: Container(
                       padding: const EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.all(8),
-                            child: Text(
-                              "Saint Name",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                      child: Form(
+                        key: controller.saintFormKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.all(8),
+                              child: Text(
+                                "Saint Name",
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.black),
+                              ),
                             ),
-                          ),
-                          Container(
-                            width: 300,
-                            height: 50,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.grey.withOpacity(0.4)),
-                            child: TextFormField(
-                              decoration: const InputDecoration(
-                                  contentPadding:
-                                      EdgeInsets.only(bottom: 10, left: 10),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: TextFormField(
+                                controller: controller.name,
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 15, bottom: 10),
                                   border: OutlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                  )),
+                                      borderSide: const BorderSide(
+                                          color: Colors.grey, width: 1),
+                                      borderRadius: BorderRadius.circular(8.0)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                          color: Colors.grey, width: 1)),
+                                  errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                          color: Colors.red, width: 1)),
+                                ),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Saint name is required";
+                                  }
+
+                                  return null;
+                                },
+                              ),
                             ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              "Email",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                            const Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                "Email",
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.black),
+                              ),
                             ),
-                          ),
-                          Container(
-                            width: 300,
-                            height: 50,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.grey.withOpacity(0.4)),
-                            child: TextFormField(
-                              decoration: const InputDecoration(
-                                  contentPadding:
-                                      EdgeInsets.only(left: 10, bottom: 10),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: TextFormField(
+                                controller: controller.email,
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 15, bottom: 10),
                                   border: OutlineInputBorder(
-                                      borderSide: BorderSide.none)),
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                          color: Colors.grey, width: 1)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                          color: Colors.grey, width: 1)),
+                                  errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                          color: Colors.red, width: 1)),
+                                ),
+                                validator: (value) {
+                                  // if (value!.isEmpty) {
+                                  //   return "Email is required";
+                                  // }
+                                  return null;
+                                },
+                              ),
                             ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              "Mobile Number",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                            const Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                "Mobile Number",
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.black),
+                              ),
                             ),
-                          ),
-                          Container(
-                            width: 300,
-                            height: 50,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.grey.withOpacity(0.4)),
-                            child: TextFormField(
-                              keyboardType: TextInputType.phone,
-                              decoration: const InputDecoration(
-                                  contentPadding:
-                                      EdgeInsets.only(left: 10, bottom: 10),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: TextFormField(
+                                controller: controller.mobile,
+                                keyboardType: TextInputType.phone,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(RegExp(r'^\+?[0-9]*$')), // Allow only numbers and + at start
+                                ],
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 15, bottom: 10),
                                   border: OutlineInputBorder(
-                                      borderSide: BorderSide.none)),
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                          color: Colors.grey, width: 1)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                          color: Colors.grey, width: 1)),
+                                  errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                          color: Colors.red, width: 1)),
+                                ),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Mobile number is required";
+                                  } else if(value.toString().length < 10) {
+                                    return "The mobile number should be exactly 10 digits long.";
+                                  } else if(value.toString().length > 15) {
+                                    return "A mobile number is allowed up to 14 digits, including the country code.";
+                                  }
+
+                                  return null;
+                                },
+                              ),
                             ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              "Gender",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                            const Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                "Username",
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.black),
+                              ),
                             ),
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: ListTile(
-                                  title: const Text("Male"),
-                                  leading: Radio<String>(
-                                      value: "1",
-                                      groupValue: controller.selectedOption,
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: TextFormField(
+                                controller: controller.username,
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 15, bottom: 10),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                          color: Colors.grey, width: 1)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                          color: Colors.grey, width: 1)),
+                                  errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                          color: Colors.red, width: 1)),
+                                ),
+                                validator: (value) {
+                                  // if (value!.isEmpty) {
+                                  //   return "Username is required";
+                                  // }
+
+                                  return null;
+                                },
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                "Password",
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.black),
+                              ),
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: TextFormField(
+                                controller: controller.password,
+                                obscureText: controller.showPassword,
+                                decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.only(
+                                        left: 15, bottom: 10),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: const BorderSide(
+                                            color: Colors.grey, width: 1)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: const BorderSide(
+                                            color: Colors.grey, width: 1)),
+                                    errorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: const BorderSide(
+                                            color: Colors.red, width: 1)),
+                                    suffixIcon: IconButton(
+                                        onPressed: () {
+                                          controller.showPassword =
+                                              !controller.showPassword;
+                                          controller.update();
+                                        },
+                                        icon: controller.showPassword
+                                            ? Icon(
+                                                Icons.visibility_off,
+                                                color: Constants.appBarColor,
+                                              )
+                                            : Icon(
+                                                Icons.visibility,
+                                                color: Constants.appBarColor,
+                                              ))),
+                                validator: (value) {
+                                  if (value!.isEmpty &&
+                                      controller.saintID.toString().isEmpty) {
+                                    return "Password is required";
+                                  }
+
+                                  return null;
+                                },
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                "Gender",
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.black),
+                              ),
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: ListTile(
+                                    title: const Text("Male"),
+                                    leading: Radio<String>(
+                                        value: "1",
+                                        groupValue: controller.gender,
+                                        onChanged: (String? value) {
+                                          controller.handleRadioButton(value);
+                                        }),
+                                  ),
+                                ),
+                                Expanded(
+                                    child: ListTile(
+                                  title: const Text("Female"),
+                                  leading: Radio(
+                                      value: "2",
+                                      groupValue: controller.gender,
                                       onChanged: (String? value) {
                                         controller.handleRadioButton(value);
                                       }),
-                                ),
-                              ),
-                              Expanded(
-                                  child: ListTile(
-                                title: const Text("Female"),
-                                leading: Radio(
-                                    value: "2",
-                                    groupValue: controller.selectedOption,
-                                    onChanged: (String? value) {
-                                      controller.handleRadioButton(value);
-                                    }),
-                              ))
-                            ],
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              "Date of Birth",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Container(
-                            width: 300,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.grey.withOpacity(0.4),
-                            ),
-                            child: ListTile(
-                              contentPadding:
-                                  const EdgeInsets.only(left: 18, bottom: 10),
-                              leading: Text(
-                                controller.selectedFromDate,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 15),
-                              ),
-                              trailing: IconButton(
-                                  // alignment: Alignment.centerRight,
-                                  iconSize: 25,
-                                  onPressed: () {
-                                    controller.datePicker(context);
-                                  },
-                                  icon: const Icon(Icons.date_range)),
-                            ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              "Districts",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            width: 300,
-                            height: 50,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.grey.withOpacity(0.4)),
-                            child: DropdownButtonFormField(
-                              isExpanded: true,
-                              isDense: true,
-                              hint: const Text("--Select--"),
-                              decoration: const InputDecoration(
-                                  contentPadding:
-                                      EdgeInsets.only(left: 10, bottom: 10),
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide.none)),
-                              items: controller.saintsController.districts
-                                  .map((e) {
-                                return DropdownMenuItem(
-                                  value: e['id'],
-                                  child: Text(e['name']),
-                                );
-                              }).toList(),
-                              onChanged: (value) {},
-                            ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              "Saint Type",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Container(
-                            width: 300,
-                            height: 50,
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.grey.withOpacity(0.4)),
-                            child: DropdownButtonFormField(
-                              isExpanded: true,
-                              hint: const Text("--Select--"),
-                              decoration: const InputDecoration(
-                                  contentPadding:
-                                      EdgeInsets.only(left: 10, bottom: 10),
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide.none)),
-                              items: controller.saintsController.saintTypes
-                                  .map((e) {
-                                return DropdownMenuItem(
-                                  value: e['id'],
-                                  child: Text(e['name']),
-                                );
-                              }).toList(),
-                              onChanged: (value) {},
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            margin: const EdgeInsets.only(left: 30),
-                            child: Row(
-                              children: [
-                                ElevatedButton(
-                                  onPressed: () {},
-                                  child: const Text(
-                                    "Save",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.green,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 15,
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {},
-                                  child: const Text("Cancel",
-                                      style: TextStyle(color: Colors.white)),
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          CupertinoColors.systemGrey),
-                                )
+                                ))
                               ],
                             ),
-                          )
-                        ],
+                            const Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                "Date of Birth",
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.black),
+                              ),
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border:
+                                      Border.all(color: Colors.grey, width: 1)),
+                              child: ListTile(
+                                contentPadding:
+                                    const EdgeInsets.only(left: 18, bottom: 10),
+                                leading: Text(
+                                  controller.dob,
+                                  style: const TextStyle(fontSize: 14),
+                                ),
+                                trailing: IconButton(
+                                    alignment: Alignment.topCenter,
+                                    iconSize: 25,
+                                    onPressed: () {
+                                      controller.datePicker(context);
+                                    },
+                                    icon: const Icon(
+                                      Icons.calendar_month_rounded,
+                                      color: Color(0xff005F01),
+                                    )),
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                "Role",
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.black),
+                              ),
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border:
+                                      Border.all(color: Colors.grey, width: 1)),
+                              child: DropdownButtonFormField(
+                                value: controller.roleId != null &&
+                                        controller.roleId.toString() != '0'
+                                    ? controller.roleId.toString()
+                                    : null, // Default to null if no valid selection
+                                isExpanded: true,
+                                isDense: true,
+                                hint: const Text("--Select--"),
+                                decoration: const InputDecoration(
+                                    contentPadding:
+                                        EdgeInsets.only(left: 10, bottom: 10),
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide.none)),
+                                items: controller.roles.map((e) {
+                                  log("RoleID is ${controller.roleId}");
+                                  return DropdownMenuItem(
+                                    value: e['id'].toString(),
+                                    child: Text(e['name'].toString()),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  controller.roleId = value.toString();
+                                  controller.update();
+                                },
+                                validator: (value) {
+                                  if (value == "") {
+                                    return "Role is required";
+                                  }
+
+                                  return null;
+                                },
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                "Districts",
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.black),
+                              ),
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border:
+                                      Border.all(color: Colors.grey, width: 1)),
+                              child: DropdownButtonFormField(
+                                // value: controller.districtId,
+                                value: controller.districtId.toString() != '0'
+                                    ? controller.districtId.toString()
+                                    : null, // Default to null if no valid selection
+                                isExpanded: true,
+                                isDense: true,
+                                hint: const Text("--Select--"),
+                                decoration: const InputDecoration(
+                                    contentPadding:
+                                        EdgeInsets.only(left: 10, bottom: 10),
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide.none)),
+                                items: controller.districts.map((e) {
+                                  return DropdownMenuItem(
+                                    value: e['id'].toString(),
+                                    child: Text(e['name'].toString()),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  controller.districtId = value.toString();
+                                  controller.update();
+                                },
+                                validator: (value) {
+                                  if (value == "") {
+                                    return "District is required";
+                                  }
+
+                                  return null;
+                                },
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                "Saint Category",
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.black),
+                              ),
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border:
+                                      Border.all(color: Colors.grey, width: 1)),
+                              child: DropdownButtonFormField(
+                                // value: controller.saintType,
+                                value: controller.saintType.toString() != '0'
+                                    ? controller.saintType.toString()
+                                    : null, // Default to null if no valid selection
+                                isExpanded: true,
+                                hint: const Text("--Select--"),
+                                decoration: const InputDecoration(
+                                    contentPadding:
+                                        EdgeInsets.only(left: 10, bottom: 10),
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide.none)),
+                                items: controller.saintTypes.map((e) {
+                                  return DropdownMenuItem(
+                                    value: e['id'].toString(),
+                                    child: Text(e['name'].toString()),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  controller.saintType = value.toString();
+                                },
+                                validator: (value) {
+                                  if (value.toString() == "--Select--") {
+                                    return "Saint Type is required";
+                                  }
+
+                                  return null;
+                                },
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.all(10),
+                              margin: const EdgeInsets.only(left: 30),
+                              child: Row(
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      if (controller.saintFormKey.currentState!
+                                          .validate()) {
+                                        if (controller.districtId.toString() ==
+                                            "0") {
+                                          Get.rawSnackbar(
+                                              snackPosition: SnackPosition.TOP,
+                                              message: "District is required");
+                                        } else {
+                                          controller.handleSave();
+                                        }
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.green,
+                                    ),
+                                    child: Text(
+                                      controller.saintID.toString() != '0'
+                                          ? "Update"
+                                          : "Save",
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 15,
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Get.back();
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            CupertinoColors.systemGrey),
+                                    child: const Text("Cancel",
+                                        style: TextStyle(color: Colors.white)),
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),

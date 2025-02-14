@@ -26,9 +26,18 @@ class _CreditWithdrawalPaymentState extends State<CreditWithdrawalPayment> {
                   style: TextStyle(
                       color: Colors.white, fontWeight: FontWeight.bold),
                 ),
-                backgroundColor: const Color(0xff005F01),
+                backgroundColor: const Color(0xff004cf1),
                 centerTitle: true,
                 iconTheme: const IconThemeData(color: Colors.white),
+                leading: GestureDetector(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: const Icon(
+                    Icons.arrow_back_ios,
+                    size: 30,
+                  ),
+                ),
               ),
               body: Container(
                 height: MediaQuery.of(context).size.height * 1,
@@ -178,7 +187,6 @@ class _CreditWithdrawalPaymentState extends State<CreditWithdrawalPayment> {
                                     onChanged: (value) {},
                                   ),
                                 ),
-
                               ],
                             )),
                         const SizedBox(
@@ -188,8 +196,7 @@ class _CreditWithdrawalPaymentState extends State<CreditWithdrawalPayment> {
                           padding: EdgeInsets.all(10),
                           child: Text(
                             "Date",
-                            style: TextStyle(
-                                color: Colors.black, fontSize: 15),
+                            style: TextStyle(color: Colors.black, fontSize: 15),
                           ),
                         ),
                         Container(
@@ -211,8 +218,8 @@ class _CreditWithdrawalPaymentState extends State<CreditWithdrawalPayment> {
                             ),
                             leading: Text(
                               controller.selectedFromDate.toString(),
-                              style: TextStyle(
-                                  color: Colors.black, fontSize: 14),
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 14),
                             ),
                           ),
                         ),
@@ -257,7 +264,8 @@ class _CreditWithdrawalPaymentState extends State<CreditWithdrawalPayment> {
                             maxLines: 4,
                             decoration: InputDecoration(
                                 border: InputBorder.none,
-                                contentPadding: EdgeInsets.only(left: 10, top: 10)),
+                                contentPadding:
+                                    EdgeInsets.only(left: 10, top: 10)),
                           ),
                         ),
                         const SizedBox(

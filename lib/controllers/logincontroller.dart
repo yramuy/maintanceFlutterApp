@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:maintenanceapp/views/bottompages/bottomnavigationbar.dart';
 import 'package:maintenanceapp/views/homescreen.dart';
 import 'package:maintenanceapp/views/loginscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,31 +23,25 @@ class LoginController extends GetxController {
     var body = jsonEncode({"username": userName, "password": password});
     log("body");
     log(body);
-    await ApiService.post("login", body).then((success) {
+    ApiService.post("login", body).then((success) {
+      print(success);
       if (success.statusCode == 200) {
         var responseBody = jsonDecode(success.body);
         if (responseBody['status'].toString() == '200') {
-          Get.snackbar('Alert', responseBody['message'].toString(),
-              backgroundColor: Colors.blueAccent,
-              barBlur: 20,
-              colorText: Colors.white,
-              animationDuration: const Duration(seconds: 3));
+          Get.rawSnackbar(
+              snackPosition: SnackPosition.TOP,
+              message: responseBody['message'].toString());
           loginUserData(responseBody);
-          Get.offAll(() => const Home());
+          Get.offAll(() => const BottomNavigationTileScreen());
         } else {
-          Get.snackbar('Alert', responseBody['message'].toString(),
-              backgroundColor: Colors.blueAccent,
-              barBlur: 20,
-              colorText: Colors.white,
-              animationDuration: const Duration(seconds: 3));
+          Get.rawSnackbar(
+              snackPosition: SnackPosition.TOP,
+              message: responseBody['message'].toString());
         }
       } else {
-        Get.snackbar('Alert', 'Something went wrong, Please retry later',
-            backgroundColor: Colors.blueAccent,
-            barBlur: 20,
-            overlayBlur: 5,
-            colorText: Colors.white,
-            animationDuration: const Duration(seconds: 3));
+        Get.rawSnackbar(
+            snackPosition: SnackPosition.TOP,
+            message: "Something went wrong, Please retry later");
       }
       update();
     });

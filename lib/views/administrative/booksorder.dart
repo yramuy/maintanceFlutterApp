@@ -24,8 +24,17 @@ class _BooksOrderState extends State<BooksOrder> {
                       color: Colors.white, fontWeight: FontWeight.bold),
                 ),
                 centerTitle: true,
-                backgroundColor: const Color(0xff005F01),
+                backgroundColor: const Color(0xff004cf1),
                 iconTheme: const IconThemeData(color: Colors.white),
+                leading: GestureDetector(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: const Icon(
+                    Icons.arrow_back_ios,
+                    size: 30,
+                  ),
+                ),
               ),
               body: Container(
                 height: MediaQuery.of(context).size.height*1,

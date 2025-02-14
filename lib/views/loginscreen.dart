@@ -20,9 +20,14 @@ class _LoginScreenState extends State<LoginScreen> {
           child: GetBuilder<LoginController>(
         init: LoginController(),
         builder: (loginController) => Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          decoration: const BoxDecoration(color: Color(0xFF024702)),
+          height: MediaQuery.of(context).size.height * 1,
+          width: MediaQuery.of(context).size.width * 1,
+          decoration: BoxDecoration(
+              color: Colors.green.withOpacity(0.2),
+              image: const DecorationImage(
+                  image: AssetImage('assets/images/bgimg.png'),
+                  alignment: Alignment.center,
+                  opacity: 0.010)),
           child: SingleChildScrollView(
             physics: const ScrollPhysics(),
             child: Form(
@@ -45,23 +50,23 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 50,
                     ),
                     TextFormField(
-                      style: const TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.black54),
                       controller: loginController.emailController,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(18),
-                            borderSide: const BorderSide(color: Colors.white)),
+                            borderSide: const BorderSide(color: Colors.black54)),
                         hintText: "Enter username or email or phone number",
-                        hintStyle: const TextStyle(color: Colors.white),
+                        hintStyle: const TextStyle(color: Colors.black54),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(18),
-                            borderSide: const BorderSide(color: Colors.white)),
+                            borderSide: const BorderSide(color: Colors.black54)),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(18),
-                            borderSide: const BorderSide(color: Colors.white)),
+                            borderSide: const BorderSide(color: Colors.grey)),
                         errorBorder:  OutlineInputBorder(
                               borderRadius: BorderRadius.circular(18),
-                              borderSide: const BorderSide(color: Colors.white)),
+                              borderSide: const BorderSide(color: Colors.red)),
                       ),
                       validator: (value) {
                         if (value.toString().isEmpty) {
@@ -74,12 +79,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 30,
                     ),
                     TextFormField(
-                      style: const TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.black54),
                       controller: loginController.passwordController,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(18),
-                            borderSide: const BorderSide(color: Colors.white)),
+                            borderSide: const BorderSide(color: Colors.black54)),
                         hintText: "Password",
                         suffixIcon: IconButton(
                             onPressed: () {
@@ -87,18 +92,19 @@ class _LoginScreenState extends State<LoginScreen> {
                             },
                             icon: Icon(
                               Icons.visibility,
-                              color: Colors.white,
+                              color: Colors.black54,
                             )),
-                        hintStyle: const TextStyle(color: Colors.white),
-                        errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(18),
-                            borderSide: const BorderSide(color: Colors.white)),
+                        hintStyle: const TextStyle(color: Colors.black54),
+
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(18),
-                            borderSide: const BorderSide(color: Colors.white)),
+                            borderSide: const BorderSide(color: Colors.grey)),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(18),
-                            borderSide: const BorderSide(color: Colors.white)),
+                            borderSide: const BorderSide(color: Colors.grey)),
+                        errorBorder:  OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(18),
+                            borderSide: const BorderSide(color: Colors.red)),
 
                       ),
                       obscureText: loginController.showLoginPassword,
@@ -173,7 +179,7 @@ class _LoginScreenState extends State<LoginScreen> {
         const Text(
           "Don't Have An Account?",
           style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+              color: Colors.blueGrey, fontSize: 16),
         ),
         TextButton(
             onPressed: () {},
@@ -181,9 +187,9 @@ class _LoginScreenState extends State<LoginScreen> {
               "Sign Up",
               style: TextStyle(
                   color: Colors.blue,
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.bold,
                   fontStyle: FontStyle.italic,
-                  fontSize: 20),
+                  fontSize: 18),
             ))
       ],
     );
@@ -195,7 +201,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: const Text(
         "Forgot your password?",
         style: TextStyle(
-            color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+            color: Colors.blueGrey, fontSize: 16),
       ),
     );
   }

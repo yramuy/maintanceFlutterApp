@@ -19,16 +19,16 @@ class _FinanceHomeState extends State<FinanceHome> {
     return GetBuilder<FinanceHomeController>(
         init: FinanceHomeController(),
         builder: (controller) => Scaffold(
-              appBar: AppBar(
-                title: const Text(
-                  'Finance',
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-                backgroundColor: const Color(0xff005F01),
-                centerTitle: true,
-                iconTheme: const IconThemeData(color: Colors.white),
-              ),
+              // appBar: AppBar(
+              //   title: const Text(
+              //     'Finance',
+              //     style: TextStyle(
+              //         color: Colors.white, fontWeight: FontWeight.bold),
+              //   ),
+              //   backgroundColor: const Color(0xff005F01),
+              //   centerTitle: true,
+              //   iconTheme: const IconThemeData(color: Colors.white),
+              // ),
               body: Container(
                 height: MediaQuery.of(context).size.height * 1,
                 width: MediaQuery.of(context).size.width * 1,
@@ -41,7 +41,7 @@ class _FinanceHomeState extends State<FinanceHome> {
                 child: controller.isLoading == true
                     ? Center(
                         child: CircularProgressIndicator(
-                          color: Colors.lightBlue.withOpacity(0.8),
+                          color: Colors.purpleAccent,
                         ),
                       )
                     : controller.submenus.isNotEmpty
@@ -66,12 +66,16 @@ class _FinanceHomeState extends State<FinanceHome> {
                                         onTap: () {
                                           if (controller.submenus[index]['id']
                                                   .toString() ==
-                                              "4") {
+                                              "4" || controller.submenus[index]['id']
+                                                  .toString() ==
+                                              "48") {
                                             Get.to(() =>
                                                 const CreditWithdrawalPayment());
                                           } else if(controller.submenus[index]['id']
                                               .toString() ==
-                                              "5"){
+                                              "5" || controller.submenus[index]['id']
+                                              .toString() ==
+                                              "49"){
                                             Get.to(() => const PaymentHistory());
                                           }
                                         },
